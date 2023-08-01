@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 
+import XComponent from './src/components/XComponet';
+import OComponent from './src/components/OComponent';
+
 
 function App(): JSX.Element {
   return (
@@ -14,6 +17,8 @@ function App(): JSX.Element {
       <StatusBar barStyle={'dark-content'}/>
       <View>
         <Text style={styles.sectionTitle}>Hello World! 2</Text>
+        <XComponent color='red'/>
+        <OComponent color='green'/>
       </View>
     </SafeAreaView>
   );
