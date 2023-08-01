@@ -1,1 +1,4 @@
-export type GamePlayer = 'X' | 'O';
+export enum GamePlayer {
+  player = 'X',
+  computer = 'O',
+}

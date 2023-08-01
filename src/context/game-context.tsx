@@ -9,14 +9,16 @@ import {
 
 type GameContextActions = {
   resetGame: () => void;
-  makeMove: (boardIndex: number) => void;
+  makePlayerMove: (boardIndex: number) => void;
+  makeComputerMove: () => void;
 };
 
 type GameContext = GameState & GameContextActions;
 const initialContextValue: GameContext = {
   ...initialGameState,
   resetGame: () => null,
-  makeMove: () => null,
+  makePlayerMove: () => null,
+  makeComputerMove: () => null,
 };
 
 const GameContext = createContext<GameContext>(initialContextValue);
@@ -28,8 +30,11 @@ export const GameProvider = ({children}: {children: ReactNode}) => {
     resetGame: () => {
       dispatch({type: GAME_TYPES.RESET});
     },
-    makeMove: boardIndex => {
-      dispatch({type: GAME_TYPES.MAKE_MOVE, payload: {boardIndex}});
+    makePlayerMove: boardIndex => {
+      dispatch({type: GAME_TYPES.MAKE_PLAYER_MOVE, payload: {boardIndex}});
+    },
+    makeComputerMove: () => {
+      dispatch({type: GAME_TYPES.MAKE_COMPUTER_MOVE});
     },
   };
 
