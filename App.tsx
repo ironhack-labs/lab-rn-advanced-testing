@@ -1,6 +1,8 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {Home} from './src/screens/Home';
+import XComponent from './src/components/XComponet';
+import OComponent from './src/components/OComponent';
 
 function App(): JSX.Element {
   return (
@@ -8,6 +10,9 @@ function App(): JSX.Element {
       <StatusBar barStyle={'dark-content'} />
       <View>
         <Home />
+        <Text style={styles.sectionTitle}>Hello World! 2</Text>
+        <XComponent color="red" />
+        <OComponent color="green" />
       </View>
     </SafeAreaView>
   );
