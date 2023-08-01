@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Text, View, Modal, TouchableOpacity } from 'react-native';
-import { mainApp } from './src/improve/Styles';
+import React, {useState} from 'react';
+import {Text, View, Modal, TouchableOpacity} from 'react-native';
+import {mainApp} from './src/improve/Styles';
 import Board from './src/improve/Board';
 
 const PLAYER_X = 'X';
@@ -26,9 +26,9 @@ export default function App() {
 
   const [turns, setTurns] = useState<Record<number, string>>({});
 
-  const togglePlayerTurn = () => setPlayerTurn((prevTurn) => !prevTurn);
-  const toggleGameEnded = () => setGameEnded((prevEnded) => !prevEnded);
-  const toggleModalVisible = () => setModalVisible((prevVisible) => !prevVisible);
+  const togglePlayerTurn = () => setPlayerTurn(prevTurn => !prevTurn);
+  const toggleGameEnded = () => setGameEnded(prevEnded => !prevEnded);
+  const toggleModalVisible = () => setModalVisible(!modalVisible);
 
   const newGame = () => {
     setTurns({});
@@ -38,15 +38,23 @@ export default function App() {
   };
 
   const finishGame = () => {
-    setGameEnded(true);
+    setGameEnded(false);
     toggleModalVisible();
   };
 
   const checkWinner = () => {
     for (const combination of VICTORY_CONDITIONS) {
       const [a, b, c] = combination;
-      if (turns[a] === turns[b] && turns[b] === turns[c] && turns[a] && turns[b] && turns[c]) {
-        setResult(playerTurn ? 'Congratulations Player 1!' : 'Nice going Player 2!');
+      if (
+        turns[a] === turns[b] &&
+        turns[b] === turns[c] &&
+        a in turns &&
+        b in turns &&
+        c in turns
+      ) {
+        setResult(
+          playerTurn ? 'Congratulations Player 1!' : 'Nice going Player 2!',
+        );
         finishGame();
         return;
       }
@@ -59,13 +67,13 @@ export default function App() {
   };
 
   const checkTurn = (index: number) => {
-    if (turns[index]) {
-      return;
-    }
+    const tempTurns = turns;
+    tempTurns[index] = playerTurn ? 'X' : 'O';
 
-    const updatedTurns = { ...turns, [index]: playerTurn ? PLAYER_X : PLAYER_O };
-    setTurns(updatedTurns);
+    //Sets the turn state with the new value added
+    setTurns({...tempTurns});
 
+    //Here we call a function to check if the game is won abd change players
     checkWinner();
     togglePlayerTurn();
   };
