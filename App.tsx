@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import TicTacToe from './src/components/TicTacToe';
+import TicTacToeBoard from './src/components/TicTacToeBoard';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <TicTacToe />
+      <TicTacToeBoard />
     </View>
   );
 };
