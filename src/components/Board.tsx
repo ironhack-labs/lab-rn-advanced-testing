@@ -1,23 +1,42 @@
-import {FlatList, View} from 'react-native';
-import React, {useState} from 'react';
-import {Chart} from './Chart';
+import React from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
+import {spaceStyle, boardStyle} from '../improve/Styles';
+import {BoardProps} from '../interfaces/Board';
 
-export const Board = () => {
-  const [dataSource, setDataSource] = useState([]);
+const Board = ({turns, onTurn}: BoardProps) => {
+  const renderSpace = (index: number) => {
+    const spaceValue = turns[index] || '';
+    return (
+      <TouchableOpacity
+        style={spaceStyle.space}
+        onPress={() => onTurn(index)}
+        disabled={!!spaceValue}>
+        <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
+      </TouchableOpacity>
+    );
+  };
 
-  useState(() => {
-    let items = Array.apply(null, Array(9)).map((v, i) => {
-      return {id: i, src: 'http://placehold.it/200x200?text=' + (i + 1)};
-    });
-    setDataSource(items);
-  }, []);
   return (
-    <View>
-      <FlatList
-        data={dataSource}
-        renderItem={({symbol}) => <Chart symbol={symbol} />}
-        numColumns={3}
-      />
+    <View style={spaceStyle.container}>
+      <View style={boardStyle.board}>
+        <View style={boardStyle.row}>
+          {renderSpace(0)}
+          {renderSpace(1)}
+          {renderSpace(2)}
+        </View>
+        <View style={boardStyle.row}>
+          {renderSpace(3)}
+          {renderSpace(4)}
+          {renderSpace(5)}
+        </View>
+        <View style={boardStyle.row}>
+          {renderSpace(6)}
+          {renderSpace(7)}
+          {renderSpace(8)}
+        </View>
+      </View>
     </View>
   );
 };
+
+export default Board;
