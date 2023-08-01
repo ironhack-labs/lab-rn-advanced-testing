@@ -1,105 +1,254 @@
 import {
   CellValue,
-  GameStatus,
   initializeGameBoard,
-  checkWinner,
-  checkDraw,
-  togglePlayer,
 } from '../src/gameLogic';
-import { render, fireEvent } from '@testing-library/react-native';
-import Board from '../src/components/Board';
-import Cell from '../src/components/Cell';
+import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import Game from '../src/components/Game';
 // Test para la funcion initializeGameBoard
-test('initializeGameBoard should return an empty 3x3 board', () => {
-  const emptyBoard = initializeGameBoard();
 
-  // Check if the board is 3x3 and all cells are initialized as Empty
-  expect(emptyBoard).toHaveLength(3);
-  expect(emptyBoard.every((row) => row.length === 3)).toBe(true);
-  expect(emptyBoard.flat().every((cell) => cell === CellValue.Empty)).toBe(true);
-});
+beforeEach(() => {
+  render(<Game />)
+})
 
-// test('Initial game board should not be empty', () => {
-//   const initialBoard = initializeGameBoard();
+describe('Game Screen render', () => {
 
-//   // Check that at least one cell is not empty
-//   let foundNonEmptyCell = false;
-//   for (let i = 0; i < 3; i++) {
-//     for (let j = 0; j < 3; j++) {
-//       if (initialBoard[i][j] !== CellValue.Empty) {
-//         foundNonEmptyCell = true;
-//         break;
-//       }
-//     }
-//   }
+  it('should render welcome label', () => {
+    const gameTitle = screen.getByText('Tic Tac Toe')
 
-//   expect(foundNonEmptyCell).toBe(true);
-// });
-
-//Board test
-// test('Board component should render correctly', () => {
-//   const board = [
-//     ['X', 'O', 'X'],
-//     ['O', 'X', 'O'],
-//     ['X', 'O', 'X'],
-//   ];
-
-//   const { getAllByTestId } = render(<Board board={board} onCellPress={() => {}} />);
-
-//   // Check if all cells are rendered
-//   const cells = getAllByTestId('cell');
-//   expect(cells.length).toBe(9);
-
-//   // Check if cells display the correct values
-//   expect(cells[0].children[0]).toBe('X');
-//   expect(cells[1].children[0]).toBe('O');
-//   // ... continue for other cells
-// });
-
-//Cell test
-
-// test('Cell component should render correctly with "X" value', () => {
-//   const { getByTestId } = render(<Cell value="X" onPress={() => {}} />);
-//   const cell = getByTestId('cell');
-
-//   // Check if cell displays the correct value
-//   expect(cell.children[0].props.children).toBe('X');
-// });
-
-// test('Cell component should render correctly with "O" value', () => {
-//   const { getByTestId } = render(<Cell value="O" onPress={() => {}} />);
-//   const cell = getByTestId('cell');
-
-//   // Check if cell displays the correct value
-//   expect(cell.children[0].props.children).toBe('O');
-// });
-
-// test('Cell component should call onPress when tapped', () => {
-//   const onPressMock = jest.fn();
-//   const { getByTestId } = render(<Cell value="O" onPress={onPressMock} />);
-//   const cell = getByTestId('cell');
-
-//   // Simulate tap on the cell
-//   fireEvent.press(cell);
-
-//   // Check if onPress function is called once
-//   expect(onPressMock).toHaveBeenCalledTimes(1);
-// });
-
-// test('Cell component should not call onPress when disabled', () => {
-//   const onPressMock = jest.fn();
-//   const { getByTestId } = render(<Cell value="O" onPress={onPressMock} disabled />);
-//   const cell = getByTestId('cell');
-
-//   // Simulate tap on the cell
-//   fireEvent.press(cell);
-
-//   // Check if onPress function is not called
-//   expect(onPressMock).not.toHaveBeenCalled();
-// });
+    expect(gameTitle).toBeOnTheScreen()
+  })
 
 
+  test('initializeGameBoard should return an empty 3x3 board', () => {
+    const emptyBoard = initializeGameBoard();
 
+    // Check if the board is 3x3 and all cells are initialized as Empty
+    expect(emptyBoard).toHaveLength(3);
+    expect(emptyBoard.every((row) => row.length === 3)).toBe(true);
+    expect(emptyBoard.flat().every((cell) => cell === CellValue.Empty)).toBe(true);
+  });
 
+})
 
+describe('Game Screen behavior', () => {
 
+  it('should render board after pressing start button', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const board = screen.getByText('Player turn X')
+    expect(board).toBeOnTheScreen()
+  })
+
+  it('should change player turn after pressing a cell', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])
+    expect(playerTurnLabel).toHaveTextContent('Player turn O')
+  })
+
+  it('should render X at first turn', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[7])// X 
+
+    expect(cellTouchable[7]).toHaveTextContent('X')
+  })
+
+  it('should render O after first turn', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[7])// X 
+    fireEvent.press(cellTouchable[1])// O 
+
+    expect(cellTouchable[1]).toHaveTextContent('O')
+  })
+
+  it('should render X after pressing two times the same cell', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[7])// X 
+    fireEvent.press(cellTouchable[7])// O 
+
+    expect(cellTouchable[7]).toHaveTextContent('X')
+  })
+
+  it('X should wins by row', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[3])// O
+    fireEvent.press(cellTouchable[1])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[2])// X
+
+    expect(playerTurnLabel).toHaveTextContent('Player X wins.')
+  })
+
+  it('O should wins by row', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[3])// O
+    fireEvent.press(cellTouchable[1])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[8])// X
+    fireEvent.press(cellTouchable[5])// O
+
+    expect(playerTurnLabel).toHaveTextContent('Player O wins.')
+  })
+
+  it('X should wins by column', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[1])// O
+    fireEvent.press(cellTouchable[3])// X
+    fireEvent.press(cellTouchable[2])// O
+    fireEvent.press(cellTouchable[6])// X
+
+    expect(playerTurnLabel).toHaveTextContent('Player X wins.')
+
+  })
+
+  it('O should wins by column', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[1])// O
+    fireEvent.press(cellTouchable[2])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[8])// X
+    fireEvent.press(cellTouchable[7])// O
+
+    expect(playerTurnLabel).toHaveTextContent('Player O wins.')
+  })
+
+  it('X should wins by diagonal', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[1])// O
+    fireEvent.press(cellTouchable[4])// X
+    fireEvent.press(cellTouchable[2])// O
+    fireEvent.press(cellTouchable[8])// X
+
+    expect(playerTurnLabel).toHaveTextContent('Player X wins.')
+  })
+
+  it('O should wins by diagonal', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[2])// O
+    fireEvent.press(cellTouchable[1])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[3])// X
+    fireEvent.press(cellTouchable[6])// O
+
+    expect(playerTurnLabel).toHaveTextContent('Player O wins.')
+  })
+
+  it('should result as a draw', () => {
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[2])// O
+    fireEvent.press(cellTouchable[1])// X
+    fireEvent.press(cellTouchable[3])// O
+    fireEvent.press(cellTouchable[5])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[8])// X
+    fireEvent.press(cellTouchable[7])// O
+    fireEvent.press(cellTouchable[6])// X
+
+    expect(playerTurnLabel).toHaveTextContent('Finishing game in draw.')
+  })
+
+  it('should restart board values after pressint restart button', () => {
+
+    const startButton = screen.getByTestId('start-button')
+
+    fireEvent.press(startButton)
+
+    const playerTurnLabel = screen.getByText('Player turn X')
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+
+    const cellTouchable = screen.queryAllByTestId('cell-touchable')
+    fireEvent.press(cellTouchable[0])// X 
+    fireEvent.press(cellTouchable[2])// O
+    fireEvent.press(cellTouchable[1])// X
+    fireEvent.press(cellTouchable[3])// O
+    fireEvent.press(cellTouchable[5])// X
+    fireEvent.press(cellTouchable[4])// O
+    fireEvent.press(cellTouchable[8])// X
+    fireEvent.press(cellTouchable[7])// O
+    fireEvent.press(cellTouchable[6])// X
+
+    const restartButton = screen.getByTestId('restart-button')
+    fireEvent.press(restartButton)
+
+    expect(playerTurnLabel).toHaveTextContent('Player turn X')
+    expect(cellTouchable[0]).toHaveTextContent('_')
+  })
+
+})

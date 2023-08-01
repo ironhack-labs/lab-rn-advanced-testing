@@ -11,7 +11,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStartGame }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tic Tac Toe</Text>
-      <TouchableOpacity style={styles.startButton} onPress={onStartGame}>
+      <TouchableOpacity testID='start-button' style={styles.startButton} onPress={onStartGame}>
         <Text style={styles.startButtonText}>Start</Text>
       </TouchableOpacity>
     </View>

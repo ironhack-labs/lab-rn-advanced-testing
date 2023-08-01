@@ -1,7 +1,7 @@
 // Game.tsx
 
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import Board from './Board';
 import {
   CellValue,
@@ -57,14 +57,15 @@ const Game: React.FC = () => {
             {gameStatus === GameStatus.Ongoing
               ? `Player turn ${currentPlayer}`
               : gameStatus === GameStatus.Won
-              ? `Player ${currentPlayer} wins.`
-              : 'Finishing game in draw.'}
+                ? `Player ${currentPlayer} wins.`
+                : 'Finishing game in draw.'}
           </Text>
           <View style={styles.boardContainer}>
             <Board board={board} onCellPress={handleCellPress} />
           </View>
           {gameStatus !== GameStatus.Ongoing && (
             <TouchableOpacity
+              testID='restart-button'
               style={styles.restartButton}
               onPress={handleStartGame}>
               <Text style={styles.restartButtonText}>Restart</Text>

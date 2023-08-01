@@ -12,6 +12,7 @@ const Cell: React.FC<CellProps> = ({ value, onPress }) => {
 
   return (
     <TouchableOpacity
+      testID='cell-touchable'
       style={[styles.cell, { backgroundColor: cellBackground }]}
       onPress={onPress}
       activeOpacity={0.8}
