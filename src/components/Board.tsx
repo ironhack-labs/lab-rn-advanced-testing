@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-import {spaceStyle, boardStyle} from '../improve/Styles';
+import { spaceStyle } from '../themes/Space.styles';
+import { boardStyle } from '../themes/Board.styles';
 import {BoardProps} from '../interfaces/Board';
 
 const Board = ({turns, onTurn}: BoardProps) => {
@@ -10,7 +11,9 @@ const Board = ({turns, onTurn}: BoardProps) => {
       <TouchableOpacity
         style={spaceStyle.space}
         onPress={() => onTurn(index)}
-        disabled={!!spaceValue}>
+        disabled={!!spaceValue}
+        testID={`space-${index}`} 
+        >
         <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
       </TouchableOpacity>
     );

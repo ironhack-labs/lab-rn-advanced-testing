@@ -3,10 +3,6 @@ import {Text, View, Modal, TouchableOpacity} from 'react-native';
 import {mainApp} from './src/themes/App.styles';
 import Board from './src/components/Board';
 
-const PLAYER_X = 'X';
-const PLAYER_O = 'O';
-const EMPTY = '-';
-const DRAW = 'draw';
 const VICTORY_CONDITIONS = [
   [0, 1, 2],
   [3, 4, 5],

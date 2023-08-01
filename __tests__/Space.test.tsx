@@ -1,7 +1,7 @@
 import '@testing-library/jest-native/extend-expect';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import Space from '../src/improve/Space';
+import Space from '../src/components/Space';
 
 describe('Space', () => {
   it('debería llamar a la función setTurn al hacer clic en el espacio', () => {
