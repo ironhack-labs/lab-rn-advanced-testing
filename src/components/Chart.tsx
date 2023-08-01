@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {chartStyles} from '../themes/Chart';
+import {chartStyles} from '../themes/Chart.styles';
 import {ChartProps} from '../interfaces/Chart';
 
 export const Chart = ({symbol}: ChartProps) => {
