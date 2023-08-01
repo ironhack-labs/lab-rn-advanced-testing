@@ -13,7 +13,7 @@ function App(): JSX.Element {
     <SafeAreaView>
       <StatusBar barStyle={'dark-content'}/>
       <View>
-        <Text style={styles.sectionTitle}>Hello World!</Text>
+        <Text style={styles.sectionTitle}>Hello World! 2</Text>
       </View>
     </SafeAreaView>
   );
