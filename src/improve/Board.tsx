@@ -12,7 +12,7 @@ const Board = ({ turns, onTurn }: BoardProps) => {
   const renderSpace = (index: number) => {
     const spaceValue = turns[index] || '';
     return (
-      <TouchableOpacity style={spaceStyle.space} onPress={() => onTurn(index)} disabled={!!spaceValue}>
+      <TouchableOpacity style={spaceStyle.space} onPress={() => onTurn(index)} disabled={!!spaceValue} testID={`space-${index}`}>
         <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
       </TouchableOpacity>
     );
