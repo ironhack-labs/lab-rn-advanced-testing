@@ -1,7 +1,11 @@
 
 import React from 'react';
 
-export const Board = () => {
+interface BoardProps {
+  boardState: string[];
+}
+
+const Board: React.FC<BoardProps> = ({ boardState }) => {
   const gameBoard = [
     ['', '', ''],
     ['', '', ''],
