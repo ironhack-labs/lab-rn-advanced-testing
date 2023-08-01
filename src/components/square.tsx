@@ -2,17 +2,18 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 type Props = {
+  id: number;
   value: string;
   onPress: () => void;
 };
 
-export default function Square({value, onPress}: Props) {
+export default function Square({id, value, onPress}: Props) {
   return (
     <TouchableOpacity
-      testID="square"
+      testID={`square-${id}`}
       style={styles.container}
       onPress={onPress}>
-      <Text testID="square-text">{value}</Text>
+      <Text testID={`square-text-${id}`}>{value}</Text>
     </TouchableOpacity>
   );
 }
