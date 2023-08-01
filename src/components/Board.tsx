@@ -11,7 +11,8 @@ export const Board = ({turns, onTurn}: BoardProps) => {
       <TouchableOpacity
         style={spaceStyle.space}
         onPress={() => onTurn(index)}
-        disabled={!!spaceValue}>
+        disabled={!!spaceValue}
+        testID={`space-${index}`}>
         <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
       </TouchableOpacity>
     );

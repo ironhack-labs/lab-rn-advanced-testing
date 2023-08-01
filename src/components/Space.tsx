@@ -8,13 +8,15 @@ interface SpaceProps {
   setTurn: (spaceID: number) => void;
 }
 
-const Space: React.FC<SpaceProps> = ({spaceID, spaceValue, setTurn}) => {
+const Space = ({spaceID, spaceValue, setTurn}: SpaceProps) => {
   return (
     <View style={spaceStyle.container}>
       <TouchableOpacity
         style={spaceStyle.space}
         onPress={() => setTurn(spaceID)}
-        disabled={!!spaceValue}>
+        disabled={!!spaceValue}
+        testID={`space-${spaceID}`} 
+        >
         <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
       </TouchableOpacity>
     </View>
