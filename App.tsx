@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View, Modal, TouchableOpacity} from 'react-native';
-import {mainApp} from './src/improve/Styles';
+import {mainApp} from './src/themes/App.styles';
 import Board from './src/components/Board';
 
 const PLAYER_X = 'X';
