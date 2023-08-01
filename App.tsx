@@ -1,21 +1,13 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {Home} from './src/screens/Home';
 
 function App(): JSX.Element {
   return (
     <SafeAreaView>
-      <StatusBar barStyle={'dark-content'}/>
+      <StatusBar barStyle={'dark-content'} />
       <View>
-        <Text style={styles.sectionTitle}>Hello World!</Text>
+        <Home />
       </View>
     </SafeAreaView>
   );
