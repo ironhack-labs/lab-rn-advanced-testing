@@ -1,19 +1,10 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-
-interface XComponentProps {
-  color: string;
-}
+import { Text } from 'react-native';
+import { XComponentProps } from '../interfaces/XComponent';
+import { xComponentStyle } from '../themes/XComponent.styles';
 
 const XComponent = ({ color }: XComponentProps) => (
-  <Text style={[styles.text, { color }]}>X</Text>
+  <Text style={[xComponentStyle.text, { color }]}>X</Text>
 );
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 50,
-    fontWeight: 'bold',
-  },
-});
 
 export default XComponent;
