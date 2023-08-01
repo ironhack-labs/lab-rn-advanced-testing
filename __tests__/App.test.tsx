@@ -12,12 +12,11 @@ import {it} from '@jest/globals';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
-import { Board } from '../src/components';
-import { board } from '../src/components/Board/Board';
+import { Board } from '../src/components/Board/Board';
 
 
 describe('Iteration 1 on board tic-tac-toe', () => {
   test("Some", () => {
-    expect(board).toEqual([]);
+    expect(Board).toEqual([]);
   })
 });

@@ -1,18 +1,26 @@
-import React from 'react'
-import { Text, View } from 'react-native'
 
-
-export const board: string[][] = [
-  ["","",""],
-  ["","",""],
-  ["","",""],
-]
+import React from 'react';
 
 export const Board = () => {
+  const gameBoard = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],
+  ];
 
   return (
-    <View>
-      <Text>Board</Text>
-    </View>
-  )
-}
+    <div className="board">
+      {gameBoard.map((row, rowIndex) => (
+        <div key={rowIndex} className="row">
+          {row.map((cell, columnIndex) => (
+            <div key={columnIndex} className="cell">
+              {cell}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Board;
