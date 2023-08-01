@@ -2,11 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { boardStyle } from '../themes/Board.styles';
 import { spaceStyle } from '../themes/Space.styles';
-
-interface BoardProps {
-  turns: Record<number, string>;
-  onTurn: (index: number) => void;
-}
+import { BoardProps } from '../interfaces/Board';
 
 const Board = ({ turns, onTurn }: BoardProps) => {
   const renderSpace = (index: number) => {

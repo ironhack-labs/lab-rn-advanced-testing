@@ -1,14 +1,9 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { spaceStyle } from '../themes/Space.styles';
+import { SpaceProps } from '../interfaces/Space';
 
-interface SpaceProps {
-  spaceID: number;
-  spaceValue: string;
-  setTurn: (spaceID: number) => void;
-}
-
-const Space: React.FC<SpaceProps> = ({ spaceID, spaceValue, setTurn }) => {
+const Space = ({ spaceID, spaceValue, setTurn }: SpaceProps) => {
   return (
     <View style={spaceStyle.container}>
       <TouchableOpacity
