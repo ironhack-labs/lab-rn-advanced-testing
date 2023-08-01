@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, Modal, TouchableOpacity} from 'react-native';
 import {mainApp} from './src/improve/Styles';
-import Board from './src/improve/Board';
+import Board from './src/components/Board';
 
 const PLAYER_X = 'X';
 const PLAYER_O = 'O';
