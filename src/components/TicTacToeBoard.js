@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Cell from './Cell';
 
 const TicTacToeBoard = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
+  const [board, setBoard] = useState(Array(9).fill(''));
   const [currentPlayer, setCurrentPlayer] = useState('X');
   const [winner, setWinner] = useState(null);
 
@@ -46,6 +46,7 @@ const TicTacToeBoard = () => {
     return (
       <Cell
         key={index}
+        testID={index}
         value={board[index]}
         onPress={() => handleCellPress(index)}
       />
