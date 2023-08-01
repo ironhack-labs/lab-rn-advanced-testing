@@ -7,33 +7,21 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WelcomeScreen from './src/WelcomeScreen';
 import GameScreen from './src/GameScreen';
 
-const Stack = createNativeStackNavigator();
+export type MainNavigationProps = {
+  Welcome: undefined;
+  Game: undefined;
+};
+
+const Stack = createNativeStackNavigator<MainNavigationProps>();
 
 export default function App() {
-  const [gameStarted, setGameStarted] = useState(false);
-
-  const handleStartGame = () => {
-    setGameStarted(true);
-  };
-
-  const handleGameEnd = () => {
-    setGameStarted(false);
-  };
-
   return (
     <NavigationContainer>
       <View style={styles.container}>
         <Stack.Navigator>
-          {!gameStarted ? (
-            <Stack.Screen name="Welcome" options={{headerShown: false}}>
-              {() => <WelcomeScreen onStartGame={handleStartGame} />}
-            </Stack.Screen>
-          ) : (
-            <Stack.Screen name="Game" options={{headerShown: false}}>
-              {() => <GameScreen onGameEnd={handleGameEnd} />}
-            </Stack.Screen>
-          )}
-        </Stack.Navigator>
+            <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen} />
+            <Stack.Screen name="Game" options={{headerShown: false}} component={GameScreen} />
+        </Stack.Navigator> 
       </View>
     </NavigationContainer>
   );

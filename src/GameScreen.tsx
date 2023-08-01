@@ -3,11 +3,7 @@
 import React, {useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-interface GameScreenProps {
-  onGameEnd: (winner: string) => void;
-}
-
-const GameScreen: React.FC<GameScreenProps> = ({onGameEnd}) => {
+const GameScreen = () => {
   const initialBoard = [
     ['', '', ''],
     ['', '', ''],
@@ -15,6 +11,7 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameEnd}) => {
   ];
   const [board, setBoard] = useState(initialBoard);
   const [player, setPlayer] = useState('X');
+  const [winner, setWinner] = useState<null | string>('');
 
   const checkWinner = useCallback(() => {
     function checkRowsForWinner() {
@@ -104,17 +101,15 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameEnd}) => {
         setPlayer(player === 'X' ? 'O' : 'X');
 
         // Check if there is a winner after each move
-        const winner = checkWinner();
-        if (winner) {
-          onGameEnd(winner);
-        }
+        setWinner(checkWinner());
       }
     },
-    [board, player, checkWinner, onGameEnd],
+    [board, player, checkWinner],
   );
 
   const handlePlayAgain = useCallback(() => {
     // Reset the board and player when the play again button is pressed
+    setWinner("");
     setBoard(initialBoard);
     setPlayer('X');
   }, [initialBoard]);
@@ -136,9 +131,11 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameEnd}) => {
           </View>
         ))}
       </View>
-      <Text style={styles.resultText}>
-        {checkWinner() === 'Tied' ? 'Tied' : `You won the game`}
-      </Text>
+      {winner ? (
+        <Text style={styles.resultText}>
+          {winner === 'Tied' ? winner : 'The winner is ' + winner}
+        </Text>
+      ) : null}
       <TouchableOpacity
         onPress={handlePlayAgain}
         style={styles.playAgainButton}>

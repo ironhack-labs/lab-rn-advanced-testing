@@ -1,18 +1,25 @@
 // src/WelcomeScreen.tsx
 
 import React from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {MainNavigationProps} from '../App';
 
-interface WelcomeScreenProps {
-  onStartGame: () => void;
-}
+type WelcomeScreenProps = NativeStackScreenProps<
+  MainNavigationProps,
+  'Welcome'
+>;
 
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({onStartGame}) => {
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
+  navigation: {navigate},
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.bannerText}>Tic Tac Toe</Text>
       <Text style={styles.welcomeText}>Welcome to the game</Text>
-      <TouchableOpacity onPress={onStartGame} style={styles.startButton}>
+      <TouchableOpacity
+        onPress={() => navigate('Game')}
+        style={styles.startButton}>
         <Text style={styles.startButtonText}>Touch here to start</Text>
       </TouchableOpacity>
     </View>
