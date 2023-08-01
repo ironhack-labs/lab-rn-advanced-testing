@@ -1,6 +1,6 @@
 // __tests__/gameLogic.test.ts
 
-import {isBoardFull, checkWinner, getEmptyCells} from '../src/gameLogic';
+import {isBoardFull, checkWinner} from '../src/gameLogic';
 
 describe('Game Logic', () => {
   describe('isBoardFull', () => {
@@ -69,39 +69,13 @@ describe('Game Logic', () => {
       expect(checkWinner(ongoingGame)).toBe(null);
     });
 
-    it('should return null for a tied game', () => {
+    it('should return Tied for a tied game', () => {
       const tiedGame = [
         ['X', 'O', 'X'],
         ['X', 'O', 'O'],
         ['O', 'X', 'X'],
       ];
-      expect(checkWinner(tiedGame)).toBe(null);
-    });
-  });
-
-  describe('getEmptyCells', () => {
-    it('should return an array of empty cells', () => {
-      const board = [
-        ['X', '', 'O'],
-        ['', 'O', 'X'],
-        ['', '', ''],
-      ];
-      expect(getEmptyCells(board)).toEqual([
-        {row: 0, col: 1},
-        {row: 1, col: 0},
-        {row: 2, col: 0},
-        {row: 2, col: 1},
-        {row: 2, col: 2},
-      ]);
-    });
-
-    it('should return an empty array for a full board', () => {
-      const fullBoard = [
-        ['X', 'O', 'X'],
-        ['X', 'O', 'O'],
-        ['O', 'X', 'X'],
-      ];
-      expect(getEmptyCells(fullBoard)).toEqual([]);
+      expect(checkWinner(tiedGame)).toBe("Tied");
     });
   });
 });

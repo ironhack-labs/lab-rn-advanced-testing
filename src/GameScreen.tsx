@@ -2,6 +2,7 @@
 
 import React, {useState, useCallback} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { checkWinner, isBoardFull } from './gameLogic';
 
 const GameScreen = () => {
   const initialBoard = [
@@ -13,87 +14,9 @@ const GameScreen = () => {
   const [player, setPlayer] = useState('X');
   const [winner, setWinner] = useState<null | string>('');
 
-  const checkWinner = useCallback(() => {
-    function checkRowsForWinner() {
-      for (let row = 0; row < 3; row++) {
-        if (
-          board[row][0] === board[row][1] &&
-          board[row][1] === board[row][2] &&
-          board[row][0] !== ''
-        ) {
-          return board[row][0];
-        }
-      }
-      return null;
-    }
-
-    function checkColumnsForWinner() {
-      for (let col = 0; col < 3; col++) {
-        if (
-          board[0][col] === board[1][col] &&
-          board[1][col] === board[2][col] &&
-          board[0][col] !== ''
-        ) {
-          return board[0][col];
-        }
-      }
-      return null;
-    }
-
-    function checkDiagonalsForWinner() {
-      if (
-        board[0][0] === board[1][1] &&
-        board[1][1] === board[2][2] &&
-        board[0][0] !== ''
-      ) {
-        return board[0][0];
-      }
-      if (
-        board[0][2] === board[1][1] &&
-        board[1][1] === board[2][0] &&
-        board[0][2] !== ''
-      ) {
-        return board[0][2];
-      }
-      return null;
-    }
-
-    function isBoardFull() {
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
-          if (board[row][col] === '') {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-
-    const winnerFromRows = checkRowsForWinner();
-    if (winnerFromRows) {
-      return winnerFromRows;
-    }
-
-    const winnerFromCols = checkColumnsForWinner();
-    if (winnerFromCols) {
-      return winnerFromCols;
-    }
-
-    const winnerFromDiagonals = checkDiagonalsForWinner();
-    if (winnerFromDiagonals) {
-      return winnerFromDiagonals;
-    }
-
-    if (isBoardFull()) {
-      return 'Tied';
-    }
-
-    return null;
-  }, [board]);
-
   const handleCellPress = useCallback(
     (row: number, col: number) => {
-      if (board[row][col] === '' && !checkWinner()) {
+      if (board[row][col] === '' && !checkWinner(board)) {
         // Update the board and switch the player
         const newBoard = [...board];
         newBoard[row][col] = player;
@@ -101,7 +24,7 @@ const GameScreen = () => {
         setPlayer(player === 'X' ? 'O' : 'X');
 
         // Check if there is a winner after each move
-        setWinner(checkWinner());
+        setWinner(checkWinner(board));
       }
     },
     [board, player, checkWinner],
@@ -109,7 +32,7 @@ const GameScreen = () => {
 
   const handlePlayAgain = useCallback(() => {
     // Reset the board and player when the play again button is pressed
-    setWinner("");
+    setWinner('');
     setBoard(initialBoard);
     setPlayer('X');
   }, [initialBoard]);
@@ -122,10 +45,20 @@ const GameScreen = () => {
           <View key={rowIndex} style={styles.row}>
             {row.map((cell, colIndex) => (
               <TouchableOpacity
+                testID={'cell-' + rowIndex.toString() + colIndex.toString()}
                 key={colIndex}
                 style={styles.cell}
                 onPress={() => handleCellPress(rowIndex, colIndex)}>
-                <Text style={styles.cellText}>{cell}</Text>
+                <Text
+                  testID={
+                    'cell-' +
+                    rowIndex.toString() +
+                    colIndex.toString() +
+                    '-text'
+                  }
+                  style={styles.cellText}>
+                  {cell}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>

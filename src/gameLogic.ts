@@ -52,18 +52,9 @@ export function checkWinner(board: string[][]): string | null {
     return board[0][2];
   }
 
-  return null;
-}
-
-// Function to get the empty cells on the board
-export function getEmptyCells(board: string[][]): {row: number; col: number}[] {
-  const emptyCells: {row: number; col: number}[] = [];
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-      if (board[row][col] === '') {
-        emptyCells.push({row, col});
-      }
-    }
+  if (isBoardFull(board)) {
+    return 'Tied';
   }
-  return emptyCells;
+
+  return null;
 }
