@@ -1,6 +1,6 @@
 import '@testing-library/jest-native/extend-expect';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import {render, fireEvent} from '@testing-library/react-native';
 import Board from '../src/components/Board';
 
 describe('Board', () => {
@@ -8,7 +8,7 @@ describe('Board', () => {
     // Hacemos el mock de nuestro component
     const mockOnTurn = jest.fn();
 
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <Board
         turns={{
           0: '',
@@ -22,7 +22,7 @@ describe('Board', () => {
           8: '',
         }}
         onTurn={mockOnTurn}
-      />
+      />,
     );
 
     // Buscamos un espacio vacio
@@ -38,7 +38,7 @@ describe('Board', () => {
   it('no debería llamar a la función onTurn al hacer clic en un espacio ocupado', () => {
     const mockOnTurn = jest.fn();
 
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <Board
         turns={{
           0: '',
@@ -52,7 +52,7 @@ describe('Board', () => {
           8: '',
         }}
         onTurn={mockOnTurn}
-      />
+      />,
     );
 
     const occupiedSpace = getByTestId('space-1');
