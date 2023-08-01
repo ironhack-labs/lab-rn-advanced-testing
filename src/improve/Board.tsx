@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { spaceStyle, boardStyle } from './Styles';
+import { boardStyle } from '../themes/Board.styles';
+import { spaceStyle } from '../themes/Space.styles';
 
 interface BoardProps {
   turns: Record<number, string>;

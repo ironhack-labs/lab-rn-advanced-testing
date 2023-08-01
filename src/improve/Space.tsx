@@ -1,7 +1,6 @@
-// components/Space.tsx
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { spaceStyle } from './Styles';
+import { spaceStyle } from '../themes/Space.styles';
 
 interface SpaceProps {
   spaceID: number;

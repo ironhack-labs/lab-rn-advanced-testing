@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, Modal, TouchableOpacity} from 'react-native';
-import {mainApp} from './src/improve/Styles';
 import Board from './src/improve/Board';
+import { mainApp } from './src/themes/App.styles';
 
 const PLAYER_X = 'X';
 const PLAYER_O = 'O';
@@ -80,7 +80,7 @@ export default function App() {
 
   return (
     <View style={mainApp.container}>
-      <Text style={mainApp.paragraph}>Let's play Tic-Tac-Toe!</Text>
+      <Text style={mainApp.paragraph}>Tic Tac Toe</Text>
       {!gameEnded && <Board turns={turns} onTurn={checkTurn} />}
       <Modal animationType="slide" visible={modalVisible}>
         <View style={mainApp.centeredView}>
@@ -93,8 +93,8 @@ export default function App() {
         </View>
       </Modal>
       <View style={mainApp.legend}>
-        <Text style={mainApp.subheader}>X - Player 1</Text>
-        <Text style={mainApp.subheader}>O - Player 2</Text>
+        <Text style={mainApp.playerLabel}>X - Player 1</Text>
+        <Text style={mainApp.playerLabel}>O - Player 2</Text>
       </View>
     </View>
   );
