@@ -10,6 +10,7 @@ const Space = ({ spaceID, spaceValue, setTurn }: SpaceProps) => {
         style={spaceStyle.space}
         onPress={() => setTurn(spaceID)}
         disabled={!!spaceValue}
+        testID={`space-${spaceID}`} 
       >
         <Text style={spaceStyle.spaceValue}>{spaceValue}</Text>
       </TouchableOpacity>
