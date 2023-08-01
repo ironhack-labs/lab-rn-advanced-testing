@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-import {spaceStyle, boardStyle} from '../improve/Styles';
+import {spaceStyle} from '../themes/Space.styles';
+import {boardStyle} from '../themes/Board.styles';
 import {BoardProps} from '../interfaces/Board';
 
-const Board = ({turns, onTurn}: BoardProps) => {
+export const Board = ({turns, onTurn}: BoardProps) => {
   const renderSpace = (index: number) => {
     const spaceValue = turns[index] || '';
     return (
@@ -38,5 +39,3 @@ const Board = ({turns, onTurn}: BoardProps) => {
     </View>
   );
 };
-
-export default Board;
