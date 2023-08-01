@@ -16,7 +16,6 @@ export const Home = () => {
   const toggleGameEnded = () => setGameEnded(prevEnded => !prevEnded);
   const toggleModalVisible = () => setModalVisible(!modalVisible);
 
-  console.log(toggleGameEnded);
   const newGame = () => {
     setTurns({});
     setGameEnded(false);
