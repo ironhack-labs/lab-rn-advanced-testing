@@ -56,10 +56,8 @@ export const Home = () => {
     const tempTurns = turns;
     tempTurns[index] = playerTurn ? 'X' : 'O';
 
-    //Sets the turn state with the new value added
     setTurns({...tempTurns});
 
-    //Here we call a function to check if the game is won abd change players
     checkWinner();
     togglePlayerTurn();
   };
@@ -68,12 +66,12 @@ export const Home = () => {
     <>
       <Text style={mainApp.paragraph}>Tic Tac Toe</Text>
       {!gameEnded && <Board turns={turns} onTurn={checkTurn} />}
-      <Modal animationType="slide" visible={modalVisible}>
+      <Modal animationType="slide" visible={modalVisible} testID="modal-view">
         <View style={mainApp.centeredView}>
           <View style={mainApp.modalView}>
             <Text style={mainApp.h2}>{result}</Text>
-            <TouchableOpacity style={mainApp.purpleButton} onPress={newGame}>
-              <Text style={mainApp.whiteButtonText}>Start a new game</Text>
+            <TouchableOpacity style={mainApp.purpleButton} onPress={newGame} >
+              <Text style={mainApp.whiteButtonText} >Start a new game</Text>
             </TouchableOpacity>
           </View>
         </View>

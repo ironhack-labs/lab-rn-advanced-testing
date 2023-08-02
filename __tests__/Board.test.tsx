@@ -1,7 +1,7 @@
 import '@testing-library/jest-native/extend-expect';
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react-native';
-import Board from '../src/components/Board';
+import { Board } from '../src/components/Board';
 
 describe('Board', () => {
   it('debería llamar a la función onTurn al hacer clic en un espacio vacío', () => {
