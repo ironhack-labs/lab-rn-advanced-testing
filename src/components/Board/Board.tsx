@@ -1,9 +1,7 @@
 import React, { FC } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
+import { BoardState } from '@utils';
 import { s } from './Board.styles';
-import { BoardState,checkWin } from '@utils';
-
-// type Cell = 'X' | 'O' | null;
 
 type BoardProps = {
   board: BoardState;
@@ -13,16 +11,11 @@ type BoardProps = {
 }
 
 export const Board:FC<BoardProps> = ({board, size, onCellAction, disabled}) => {
-  
-  
   return (
-    <View style={{
+    <View style={[{
       width: size,
       height: size,
-      backgroundColor: 'white',
-      flexDirection: 'row',
-      flexWrap: 'wrap'
-    }}>
+    }, s.board]}>
       {
         board.map((cell, index) => (
           <TouchableOpacity 

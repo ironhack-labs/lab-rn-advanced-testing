@@ -5,7 +5,7 @@ import { s } from './Header.styles'
 export const Header = () => {
   return (
     <View style={s.header}>
-      <Text>Soy el header</Text>
+      <Text style={s.titleHeader}>Tic Tac Toe</Text>
     </View>
   )
 }
