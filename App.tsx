@@ -119,8 +119,6 @@ export const App = () => {
           gameOver.gameOver && <Button textToShow={gameOver.winner} onPress={handleResetGame}/>
         }
         
-            
-            
           </>
         ) : (
           <>
