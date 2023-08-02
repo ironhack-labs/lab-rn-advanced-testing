@@ -10,15 +10,21 @@ import React from 'react';
 import { it, describe, expect } from '@jest/globals';
 
 import { render } from '@testing-library/react-native';
-
 import GameBoard from '../src/components/GameBoard';
 
 
 describe('Render Game Board', () => {
+    const setUp = () => render(<GameBoard />);
+
     it('renders correctly', () => {
-        const { getByTestId } = render(<GameBoard />)
-        const gameBoard = getByTestId('board')
-        expect(gameBoard).toBeDefined()
+        const { getByTestId } = setUp();
+        const gameBoard = getByTestId('board');
+        expect(gameBoard).toBeDefined();
         expect(gameBoard).not.toBe(undefined);
     });
+    it('render 9 cells', () => {
+        const { getAllByTestId } = setUp()
+        const gameCells = getAllByTestId('cell');
+        expect(gameCells.length).toBe(9);
+    })
 })

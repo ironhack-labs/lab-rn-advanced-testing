@@ -1,11 +1,15 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import { SafeAreaView } from 'react-native';
+import GameScreen from './src/screens/GameScreen';
+import { GameProvider } from './src/context/GameProvider';
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <SafeAreaView style={{backgroundColor: 'aqua'}}>
+      <GameProvider>
+        <GameScreen />
+      </GameProvider>
+    </SafeAreaView>
   );
 };
 
