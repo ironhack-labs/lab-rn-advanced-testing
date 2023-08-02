@@ -1,17 +1,17 @@
-/**
- * @format
- */
-
-import 'react-native';
+import '@testing-library/jest-native/extend-expect';
 import React from 'react';
+import {render} from '@testing-library/react-native';
 import App from '../App';
 
-// Note: import explicitly to use the types shiped with jest.
-import {it} from '@jest/globals';
+describe('App', () => {
+  it('should render the title and player labels', () => {
+    const {getByText} = render(<App />);
+    const titleElement = getByText('Tic Tac Toe');
+    const player1Label = getByText('X - Player 1');
+    const player2Label = getByText('O - Player 2');
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
-
-it('renders correctly', () => {
-  renderer.create(<App />);
+    expect(titleElement).toBeTruthy();
+    expect(player1Label).toBeTruthy();
+    expect(player2Label).toBeTruthy();
+  });
 });
