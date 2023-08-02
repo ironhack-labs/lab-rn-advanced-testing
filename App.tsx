@@ -1,118 +1,61 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect, useState } from 'react'
+import { Board, Header } from '@components';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { BoardState, isEmpty} from '@utils';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export const App = () => {
+  const [turn, setTurn] = useState<'human' | 'Bot'>(Math.random() < 0.5 ? 'human' : 'Bot');
+  const [state, setState] = useState<BoardState>([
+    null,null,null,
+    null,null,null,
+    null,null,null
+  ]);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const handleClickMove = (cell: number):void => {
+    if(turn !== 'human') return
+    // TODO functionality of choose the character
+    // insertMove(cell, 'X')
+    setTurn('Bot');
+  }
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const insertMove = (cell: number, character: 'X' | 'O'): void => {
+    const stateCpy: BoardState = [...state];
+    // TODO condition gameover
+    if(stateCpy[cell]) return;
+    stateCpy[cell] = character;
+    setState(stateCpy)
+  }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  useEffect(() => {
+    if(turn === 'Bot') {
+      if(isEmpty(state)) {
+        const movesCenterCorners = [0,2,6,8,4];
+        const firstMove = movesCenterCorners[Math.floor(Math.random()* movesCenterCorners.length)]
+        insertMove(firstMove, 'X');
+        //TODO implement algorithm result of winner
+        setTurn('human');
+      } else {
+        // TODO implement result of algorithm for the next move
+        setTurn('human');
+      }
+    }
+  }, [state, turn]);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+    <SafeAreaProvider>
+      <SafeAreaView>
+        <Header/>
+        <Board 
+        board={state}
+        size={300}
+        // Todo implement disabled when game over
+        disabled={turn !== 'human'}
+        onCellAction={(cell) => {
+          handleClickMove(cell)
+        }}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
+  )
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;

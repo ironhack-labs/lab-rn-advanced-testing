@@ -1,30 +1,47 @@
+import React, { FC } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import { s } from './Board.styles';
+import { BoardState } from '@utils';
 
-import React from 'react';
+// type Cell = 'X' | 'O' | null;
 
-interface BoardProps {
-  boardState: string[];
+type BoardProps = {
+  board: BoardState;
+  size: number;
+  disabled?: boolean;
+  onCellAction: (cellValue: number) => void;
 }
 
-const Board: React.FC<BoardProps> = ({ boardState }) => {
-  const gameBoard = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', ''],
-  ];
-
+export const Board:FC<BoardProps> = ({board, size, onCellAction, disabled}) => {
   return (
-    <div className="board">
-      {gameBoard.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
-          {row.map((cell, columnIndex) => (
-            <div key={columnIndex} className="cell">
-              {cell}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default Board;
+    <View style={{
+      width: size,
+      height: size,
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+    }}>
+      {
+        board.map((cell, index) => (
+          <TouchableOpacity 
+            // disabled={disabled !== null}
+            key={index}
+            style={{
+              width: '33.33%',
+              height: '33.33%',
+              backgroundColor: '#fff',
+              borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            onPress={() => onCellAction(index)}
+          >
+            <Text style={{
+              fontSize: size / 5
+            }}>{cell}</Text>
+          </TouchableOpacity>
+        ))
+      }
+    </View>
+  )
+}
