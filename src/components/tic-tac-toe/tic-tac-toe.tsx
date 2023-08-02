@@ -7,7 +7,7 @@ import {useGameCtx} from '../../context';
 import {GamePlayer} from '../../types';
 
 type TiTacToeProps = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export const TiTacToe = ({children}: TiTacToeProps) => {
@@ -29,7 +29,7 @@ export const TiTacToe = ({children}: TiTacToeProps) => {
             {winner === 'tie' ? 'Nobody wins :(' : `The winner is: ${winner}`}
           </Text>
 
-          <Button appearance="ghost" onPress={resetGame}>
+          <Button testID="reset-button" appearance="ghost" onPress={resetGame}>
             Touch here to play again
           </Button>
         </View>

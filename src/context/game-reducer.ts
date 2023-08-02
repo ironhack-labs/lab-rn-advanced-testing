@@ -81,7 +81,7 @@ export const gameReducer = (
       }
 
       const newBoard = [...state.board];
-      newBoard[index] = state.player;
+      newBoard[index] = GamePlayer.player;
 
       return {
         ...state,
@@ -107,7 +107,7 @@ export const gameReducer = (
       const randomCell = emptyCells[randomIndex];
 
       const newBoard = [...state.board];
-      newBoard[randomCell] = state.player;
+      newBoard[randomCell] = GamePlayer.computer;
 
       return {
         ...state,

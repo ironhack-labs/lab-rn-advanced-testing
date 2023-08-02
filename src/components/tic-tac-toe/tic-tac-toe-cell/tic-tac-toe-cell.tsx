@@ -22,6 +22,7 @@ export const TicTacToeCell = ({index}: TicTacToeCellProps) => {
 
   return (
     <Button
+      testID="tic-tac-toe-cell"
       style={styles.cell}
       appearance="outline"
       status={cellValue ? statusMapper[cellValue] : 'primary'}
