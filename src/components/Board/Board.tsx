@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { s } from './Board.styles';
-import { BoardState } from '@utils';
+import { BoardState,checkWin } from '@utils';
 
 // type Cell = 'X' | 'O' | null;
 
@@ -13,6 +13,8 @@ type BoardProps = {
 }
 
 export const Board:FC<BoardProps> = ({board, size, onCellAction, disabled}) => {
+  
+  
   return (
     <View style={{
       width: size,
@@ -24,7 +26,7 @@ export const Board:FC<BoardProps> = ({board, size, onCellAction, disabled}) => {
       {
         board.map((cell, index) => (
           <TouchableOpacity 
-            // disabled={disabled !== null}
+            disabled={disabled}
             key={index}
             style={{
               width: '33.33%',
