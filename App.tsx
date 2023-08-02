@@ -3,12 +3,15 @@ import { Board, Button, Header } from '@components';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { BoardState, isEmpty, checkWin } from '@utils';
 import { View } from 'react-native';
+import {InicioScreen} from './src/Screens/inicioScreen';
 
 
 export const App = () => {
   const [turn, setTurn] = useState<'human' | 'Bot'>(Math.random() < 0.5 ? 'human' : 'Bot');
   const [winner, setWinner] = useState(false)
   const[gameOver, setGameOver]=useState({winner:"",gameOver:false})
+  const [showGame, setShowGame] = useState(false);
+
 
   const initialBoard: BoardState = [
     null, null, null,
@@ -93,6 +96,8 @@ export const App = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView>
+      {showGame ? (
+          <>
         <Header />
         <View
         style={{
@@ -113,7 +118,19 @@ export const App = () => {
         {
           gameOver.gameOver && <Button textToShow={gameOver.winner} onPress={handleResetGame}/>
         }
+        
+            
+            
+          </>
+        ) : (
+          <>
+          <Header />
+          <InicioScreen onStartGame={() => setShowGame(true)} 
+          />
+          </>
+
+        )}
       </SafeAreaView>
     </SafeAreaProvider>
-  )
-}
+  );
+};
