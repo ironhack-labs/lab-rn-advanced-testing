@@ -1,118 +1,141 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+type players = 'X' | 'O';
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [isGameStarted, setisGameStarted] = useState(false);
+  const [board, setBoard] = useState<string[]>(Array(9).fill(''));
+  const [currentPlayer, setCurrentPlayer] = useState<players>('X');
+  const [winner, setWinner] = useState<string | null>(null);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  useEffect(() => {
+    if(isGameStarted)
+      checkWin(currentPlayer);
+  }, [board]);
+
+  useEffect(() => {
+    if(winner)
+      setisGameStarted(false)
+  }, [winner])
+  
+
+  const handleCellPress = (index: number) => {
+    if (!board[index] && !winner) {
+      const newBoard = [...board];
+      newBoard[index] = currentPlayer;
+      setBoard(newBoard);
+    }
   };
 
+  const checkWin = (currentPlayer: string) => {
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (
+        board[a] === currentPlayer &&
+        board[b] === currentPlayer &&
+        board[c] === currentPlayer
+      ) {
+        setWinner(currentPlayer);
+      }
+    }
+
+    if (!board.includes('')) {
+      setWinner('Draw');
+    }
+
+    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+  };
+
+  const onRestart = () => {
+    setBoard(Array(9).fill(''))
+    setCurrentPlayer('X')
+    setWinner(null)
+  }
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView style={styles.container}>
+      {isGameStarted ? (
+        <View style={styles.board} testID='board'>
+          {board.map((cell, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.cell}
+              onPress={() => handleCellPress(index)}
+              testID={`cell-${index}`}>
+              <Text style={styles.cellText} testID={`cell-text-${index}`}>{cell}</Text>
+            </TouchableOpacity>
+          ))}
+          <Text style={{marginTop:10}}>{`Current player: ${currentPlayer}`}</Text>
         </View>
-      </ScrollView>
+      ) : (
+        <TouchableOpacity onPress={() => setisGameStarted(true)} testID='button-start'>
+          <Text>Touch here to start</Text>
+        </TouchableOpacity>
+      )}
+
+      {winner && (
+        <View>
+          <Text style={styles.resultText}>{winner !== "Draw" ? `${winner} won the game!` : "Draw"}</Text>
+          <TouchableOpacity onPress={onRestart} testID='restart-button'>
+            <Text>Touch here to play again</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
 
+export default App;
+
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
+  board: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    borderWidth: 2,
+    borderColor: 'black',
+    width: 300,
+    height: 300,
+  },
+  cell: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 98,
+    height: 98,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  cellText: {
+    fontSize: 40,
+  },
+  resultText: {
     fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+    marginVertical: 20,
   },
 });
-
-export default App;
